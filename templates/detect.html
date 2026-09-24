@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Solace — Detect{% endblock %}
+{% block content %}
+<div class="section-head">
+  <div class="eyebrow">Layer 1 · Detect</div>
+  <h1>A few questions about your real situation</h1>
+  <p>No connected bank account in this prototype — these answers stand in for what open banking would tell us automatically.</p>
+</div>
+
+<form method="post" action="{{ url_for('detect') }}">
+  {% for q in questionnaire %}
+    <div class="q-block">
+      <div class="q-title">{{ loop.index }}. {{ q.question }}</div>
+      <div class="option-list">
+        {% for value, label in q.options %}
+          <label class="option">
+            <input type="radio" name="{{ q.id }}" value="{{ value }}" required>
+            <span>{{ label }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+  <button class="btn btn-primary btn-block" type="submit">See my personalised profile</button>
+</form>
+{% endblock %}
