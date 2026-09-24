@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Solace — your profile{% endblock %}
+{% block content %}
+<div class="section-head">
+  <div class="eyebrow">Layer 1 · Detect</div>
+  <h1>Here's what we picked up</h1>
+  <p>Everything from here — your lessons, your practice scenarios — is ordered around this.</p>
+</div>
+
+<div class="card" style="margin-bottom:28px;">
+  <div class="tag-row">
+    {% for tag in tags %}<span class="chip">{{ tag }}</span>{% endfor %}
+    {% if not tags %}<span class="chip">General starter profile</span>{% endif %}
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h3 style="font-size:1rem;">Recommended lessons</h3>
+    {% for lesson in top_lessons %}
+      <div class="list-row">
+        <div class="list-row-main">
+          <div>
+            <h4>{{ lesson.title }}</h4>
+            <div class="meta">{{ lesson.minutes }} min</div>
+          </div>
+        </div>
+        <a class="btn btn-ghost" style="padding:8px 14px; font-size:0.82rem;" href="{{ url_for('lesson_detail', lesson_id=lesson.id) }}">Open</a>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <h3 style="font-size:1rem;">Recommended scenarios</h3>
+    {% for s in top_scenarios %}
+      <div class="list-row">
+        <div class="list-row-main">
+          <div>
+            <h4>{{ s.prompt[:46] }}…</h4>
+          </div>
+        </div>
+        <a class="btn btn-ghost" style="padding:8px 14px; font-size:0.82rem;" href="{{ url_for('scenario_detail', scenario_id=s.id) }}">Try it</a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div style="margin-top:28px;">
+  <a class="btn btn-primary" href="{{ url_for('index') }}">Go to dashboard</a>
+</div>
+{% endblock %}

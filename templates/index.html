@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Solace — dashboard{% endblock %}
+{% block content %}
+
+{% if not onboarded %}
+  <div class="empty-state card">
+    <div class="eyebrow">Get started</div>
+    <h1>Let's find out where you actually stand</h1>
+    <p>Answer four quick questions and Solace will personalise your lessons, practice scenarios and rewards around your real situation.</p>
+    <a class="btn btn-primary" href="{{ url_for('detect') }}">Start the questionnaire</a>
+  </div>
+{% else %}
+  <div class="section-head">
+    <div class="eyebrow">Your dashboard</div>
+    <h1>Welcome back</h1>
+    <p>{{ points }} points, a {{ streak }}-day streak, and {{ lessons_done }}/{{ lessons_total }} lessons done so far.</p>
+    <div class="tag-row">
+      {% for tag in tags %}<span class="chip">{{ tag }}</span>{% endfor %}
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <a class="tile-link" href="{{ url_for('learn') }}">
+      <div class="tile tile-learn">
+        <div class="tile-icon">L</div>
+        <h3>Learn</h3>
+        <p>Short lessons personalised to your profile.</p>
+        <div class="tile-meta">{{ lessons_done }}/{{ lessons_total }} complete</div>
+      </div>
+    </a>
+    <a class="tile-link" href="{{ url_for('practice') }}">
+      <div class="tile tile-practice">
+        <div class="tile-icon">P</div>
+        <h3>Practice</h3>
+        <p>Scenario simulations built from your real decisions.</p>
+        <div class="tile-meta">{{ scenarios_done }}/{{ scenarios_total }} complete</div>
+      </div>
+    </a>
+    <a class="tile-link" href="{{ url_for('reward') }}">
+      <div class="tile tile-reward">
+        <div class="tile-icon">R</div>
+        <h3>Reward</h3>
+        <p>Check in, keep a streak, unlock a cash top-up.</p>
+        <div class="tile-meta">{{ streak }}-day streak</div>
+      </div>
+    </a>
+    <a class="tile-link" href="{{ url_for('social') }}">
+      <div class="tile tile-social">
+        <div class="tile-icon">S</div>
+        <h3>Social</h3>
+        <p>See how your streak compares — anonymised and friendly.</p>
+        <div class="tile-meta">Leaderboard</div>
+      </div>
+    </a>
+  </div>
+
+  <div style="margin-top:24px;">
+    <a href="{{ url_for('detect') }}" style="font-size:0.86rem; color:var(--text-soft);">Retake the questionnaire →</a>
+  </div>
+{% endif %}
+
+{% endblock %}

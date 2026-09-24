@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Solace — Learn{% endblock %}
+{% block content %}
+<div class="section-head">
+  <div class="eyebrow">Layer 2 · Learn</div>
+  <h1>Lessons ordered around your profile</h1>
+  <p>Written with practising finance professionals — every lesson says who reviewed it.</p>
+</div>
+
+<div class="card">
+  {% for lesson in lessons %}
+    <div class="list-row">
+      <div class="list-row-main">
+        <div class="row-check {{ 'done' if lesson.id in completed else '' }}">{{ '✓' if lesson.id in completed else '' }}</div>
+        <div>
+          <h4>{{ lesson.title }}</h4>
+          <div class="meta">{{ lesson.minutes }} min · {{ lesson.summary }}</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+        {% if lesson.tags | select('in', tags) | list %}
+          <span class="match-badge">For you</span>
+        {% endif %}
+        <a class="btn btn-ghost" style="padding:8px 14px; font-size:0.82rem;" href="{{ url_for('lesson_detail', lesson_id=lesson.id) }}">Open</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

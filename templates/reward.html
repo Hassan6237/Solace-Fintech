@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Solace — Reward{% endblock %}
+{% block content %}
+<div class="section-head">
+  <div class="eyebrow">Layer 4 · Reward</div>
+  <h1>Keep the streak going</h1>
+  <p>Real cash top-ups into a savings product, funded by the bank behind it, once you've earned them.</p>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h3 style="font-size:0.95rem; color:var(--text-soft); font-weight:500;">Current streak</h3>
+    <div class="streak-display">
+      <div class="streak-num">{{ streak }}</div>
+      <span style="color:var(--text-soft);">day{{ 's' if streak != 1 else '' }}</span>
+    </div>
+    <div class="streak-row">
+      {% for i in range(7) %}
+        <div class="streak-day {{ 'filled' if i < streak else '' }}">{{ i+1 }}</div>
+      {% endfor %}
+    </div>
+    {% if checked_in_today %}
+      <button class="btn btn-ghost btn-block" disabled>✓ Checked in today</button>
+    {% else %}
+      <form method="post" action="{{ url_for('checkin') }}">
+        <button class="btn btn-primary btn-block" type="submit">Check in today (+{{ 5 }} pts)</button>
+      </form>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h3 style="font-size:0.95rem; color:var(--text-soft); font-weight:500;">Cash top-up progress</h3>
+    <div class="points-row">
+      <span>Points toward next top-up</span>
+      <strong>{{ points }} / {{ threshold }}</strong>
+    </div>
+    <div class="bar-track" style="margin-bottom:18px;">
+      <div class="bar-fill" style="width:{{ progress_pct }}%;"></div>
+    </div>
+    {% if can_topup %}
+      <form method="post" action="{{ url_for('topup') }}">
+        <button class="btn btn-primary btn-block" type="submit">Redeem £{{ topup_amount }} top-up</button>
+      </form>
+    {% else %}
+      <button class="btn btn-ghost btn-block" disabled>Keep learning to unlock £{{ topup_amount }}</button>
+    {% endif %}
+    {% if redeemed %}
+      <p style="margin-top:14px; font-size:0.85rem;">£{{ redeemed * topup_amount }} redeemed so far into your savings product.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

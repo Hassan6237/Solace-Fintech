@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Solace — Social{% endblock %}
+{% block content %}
+<div class="section-head">
+  <div class="eyebrow">Layer 5 · Social</div>
+  <h1>Streaks this week</h1>
+  <p>Anonymised by default — this mock board is just you and four demo friends.</p>
+</div>
+
+<div class="card">
+  {% for b in board %}
+    <div class="board-row {{ 'you' if b.you else '' }}">
+      <div class="board-rank">{{ loop.index }}</div>
+      <div class="avatar">{{ b.name[0] }}</div>
+      <div class="board-name">{{ b.name }}{% if b.you %} (you){% endif %}</div>
+      <div class="board-streak">{{ b.streak }}🔥</div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

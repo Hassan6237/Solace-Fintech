@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Solace — Practice{% endblock %}
+{% block content %}
+<div class="section-head">
+  <div class="eyebrow">Layer 3 · Practice</div>
+  <h1>Scenarios built from your situation</h1>
+  <p>Pick a decision, see the consequence play out, no real money involved.</p>
+</div>
+
+<div class="card">
+  {% for s in scenarios %}
+    <div class="list-row">
+      <div class="list-row-main">
+        <div class="row-check {{ 'done' if s.id in completed else '' }}">{{ '✓' if s.id in completed else '' }}</div>
+        <div>
+          <h4>{{ s.prompt[:64] }}{% if s.prompt|length > 64 %}…{% endif %}</h4>
+        </div>
+      </div>
+      <a class="btn btn-ghost" style="padding:8px 14px; font-size:0.82rem; flex-shrink:0;" href="{{ url_for('scenario_detail', scenario_id=s.id) }}">
+        {{ 'Review' if s.id in completed else 'Try it' }}
+      </a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ lesson.title }} — Solace{% endblock %}
+{% block content %}
+<a href="{{ url_for('learn') }}" style="font-size:0.85rem; color:var(--text-soft);">← Back to Learn</a>
+
+<div class="section-head" style="margin-top:16px;">
+  <div class="eyebrow">Layer 2 · Learn · {{ lesson.minutes }} min</div>
+  <h1>{{ lesson.title }}</h1>
+  {% if matched %}<span class="match-badge">Matches your profile</span>{% endif %}
+</div>
+
+<div class="card lesson-body">
+  {% for para in lesson.body %}
+    <p>{{ para }}</p>
+  {% endfor %}
+  <div class="lesson-source">{{ lesson.reviewed_by }}</div>
+</div>
+
+<div style="margin-top:22px;">
+  {% if completed %}
+    <button class="btn btn-ghost" disabled>✓ Completed</button>
+  {% else %}
+    <form method="post" action="{{ url_for('complete_lesson', lesson_id=lesson.id) }}">
+      <button class="btn btn-primary" type="submit">Mark complete</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

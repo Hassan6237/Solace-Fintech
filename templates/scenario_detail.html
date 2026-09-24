@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Solace — scenario{% endblock %}
+{% block content %}
+<a href="{{ url_for('practice') }}" style="font-size:0.85rem; color:var(--text-soft);">← Back to Practice</a>
+
+<div class="section-head" style="margin-top:16px;">
+  <div class="eyebrow">Layer 3 · Practice</div>
+  <h1>Make the call</h1>
+</div>
+
+<div class="card">
+  <p class="scenario-prompt">{{ scenario.prompt }}</p>
+
+  {% if not chosen %}
+    <form class="choice-form" method="post" action="{{ url_for('scenario_detail', scenario_id=scenario.id) }}">
+      {% for opt in scenario.options %}
+        <label class="option">
+          <input type="radio" name="choice" value="{{ opt.id }}" required>
+          <span>{{ opt.text }}</span>
+        </label>
+      {% endfor %}
+      <button class="btn btn-primary" style="margin-top:8px;" type="submit">See what happens</button>
+    </form>
+  {% else %}
+    <div class="option" style="border-color:var(--gold); background:var(--gold-soft); margin-bottom:4px;">
+      <span>✓</span><span>{{ chosen.text }}</span>
+    </div>
+    <div class="outcome outcome-{{ chosen.outcome }}">
+      <div class="outcome-label">
+        {% if chosen.outcome == 'good' %}Solid move
+        {% elif chosen.outcome == 'okay' %}Reasonable, with a catch
+        {% else %}Worth rethinking{% endif %}
+      </div>
+      <p>{{ chosen.feedback }}</p>
+    </div>
+    <div style="margin-top:20px;">
+      <a class="btn btn-ghost" href="{{ url_for('practice') }}">Back to all scenarios</a>
+    </div>
+  {% endif %}
+</div>
+{% if earned %}
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = "+{{ earned }} points";
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.classList.add("show"));
+    setTimeout(() => t.classList.remove("show"), 2200);
+  });
+</script>
+{% endif %}
+{% endblock %}
