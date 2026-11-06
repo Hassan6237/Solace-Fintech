@@ -105,3 +105,8 @@ completed lessons/scenarios, points, streak) lives in the Flask
 session, so it resets whenever a session/cookie is cleared, and isn't
 shared between visitors. That's intentional for a demo; a real build
 would swap this for a proper database and real open-banking data.
+
+## 👤 Author
+
+**Hassan Ali**, BSc Computer Science (Year in Industry) student at the University of Kent<br/>
+[GitHub](https://github.com/Hassan6237) · [LinkedIn](https://www.linkedin.com/in/hassan623)
