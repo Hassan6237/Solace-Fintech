@@ -1,5 +1,9 @@
 # Solace — financial capability prototype
 
+> 🎯 Built for the **AI Summit Financial Capability Hackathon 2026**, where I was selected from 1,300+ applicants.
+>
+> **Stack:** Python · Flask · Jinja templates · vanilla JavaScript · gunicorn (Render / Railway / Heroku ready)
+
 A working prototype of **Solace**, a financial capability platform for
 18–25 year-olds, built around five layers:
 

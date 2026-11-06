@@ -13,6 +13,7 @@ Production (e.g. behind gunicorn on Render/Railway/Heroku):
     gunicorn app:app
 """
 import os
+import secrets
 from datetime import date, timedelta
 
 from dotenv import load_dotenv
@@ -23,9 +24,10 @@ import data
 load_dotenv()  # reads a local .env file if present; no-op in production
 
 app = Flask(__name__)
-# In production, set a real SECRET_KEY environment variable — this fallback
-# is fine for local demoing only.
-app.secret_key = os.environ.get("SECRET_KEY", "solace-prototype-demo-key")
+# Set SECRET_KEY in the environment (see .env.example). If it is missing, use a
+# random per-process key rather than a hard-coded one, so sessions can never be
+# forged with a key published in this repository.
+app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 
 
 # ---------------------------------------------------------------- helpers
@@ -235,5 +237,8 @@ def reset():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    debug = os.environ.get("FLASK_DEBUG", "1") == "1"
-    app.run(host="0.0.0.0", port=port, debug=debug)
+    # Debug mode exposes an interactive debugger, so it is opt-in and the dev
+    # server only listens on localhost unless HOST is set explicitly.
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    host = os.environ.get("HOST", "127.0.0.1")
+    app.run(host=host, port=port, debug=debug)
